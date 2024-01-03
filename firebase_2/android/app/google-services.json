@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953552026191",
+    "project_id": "test-task-auth-58701",
+    "storage_bucket": "test-task-auth-58701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953552026191:android:d19da60e5f436dda92083a",
+        "android_client_info": {
+          "package_name": "com.example.firebase_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfA8YgaDtI3IEyJrnDJqPsLW9DDUw9Bw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
