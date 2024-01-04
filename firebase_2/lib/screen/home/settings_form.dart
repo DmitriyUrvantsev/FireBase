@@ -136,10 +136,10 @@ class _SettingsFormState extends State<SettingsForm> {
                         if (_formKey.currentState?.validate() ?? false) {
                           await DatabaseService(uid: user.uid).updateUserData(
                               _currentName ?? snapshot.data!.name,
-                              _currentChisburger ?? snapshot.data!.chisburger,
-                              _currentBigmak ?? snapshot.data!.bigMac,
-                              _currentKartoshka ?? snapshot.data!.kartoshka,
-                              _currentCola ?? snapshot.data!.cola);
+                              _currentChisburger ?? snapshot.data!.chisburger?? '0',
+                              _currentBigmak ?? snapshot.data!.bigMac?? '0',
+                              _currentKartoshka ?? snapshot.data!.kartoshka?? '0',
+                              _currentCola ?? snapshot.data!.cola?? '0');
                           Navigator.pop(context);
                         }
                       }),
