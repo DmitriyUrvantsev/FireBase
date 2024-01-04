@@ -2,9 +2,9 @@ import 'package:firebase_2/servises/data_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../domain/entity/user.dart';
 
-class AuthService  {
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late final String userName;
+  String? userName;
 
   // создание нашего UseraApp на данных user FireBase
   UserApp? _userFromFirebaseUser(User? user) {
@@ -31,17 +31,18 @@ class AuthService  {
 
   // ---------войти с email и password---------
   Future signInWithEmailAndPassword(String email, String password) async {
+   // userName = 'болванка';
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      await DatabaseService(uid: user!.uid).updateUserData(
-        '$userName - чтобы оформить заказ \n - жми "заказ"',
-        '0',
-        '0',
-        '0',
-        '0',
-      );
+      // await DatabaseService(uid: user!.uid).updateUserData(
+      //   '$userName - чтобы оформить заказ \n - жми "заказ"',
+      //   '0',
+      //   '0',
+      //   '0',
+      //   '0',
+      // );
       return user;
     } catch (error) {
       print('error.toString() ${error.toString()}');
@@ -58,12 +59,12 @@ class AuthService  {
           email: email, password: password);
       User? user = result.user;
       await DatabaseService(uid: user!.uid).updateUserData(
-        '$userName:\n  - чтобы оформить заказ \n - жми "заказ"',
-        '0',
-        '0',
-        '0',
-        '0',
-      );
+          '$userName:\n  - чтобы оформить заказ \n - жми "заказ"'
+          //'0',
+          //'0',
+          // '0',
+          // '0',
+          );
       print('userName - $userName');
       print('user - $user');
       return _userFromFirebaseUser(user);

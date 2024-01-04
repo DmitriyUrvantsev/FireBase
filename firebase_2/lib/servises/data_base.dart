@@ -11,8 +11,8 @@ class DatabaseService extends ChangeNotifier {
   final CollectionReference taskCollection =
       FirebaseFirestore.instance.collection('test_task');
 
-  Future<void> updateUserData(String name, String chisburger, String bigMac,
-      String kartoshka, String cola) async {
+  Future<void> updateUserData(String name, [String? chisburger, String? bigMac,
+      String? kartoshka, String? cola]) async {
     Map<String, dynamic> data = {
       'name': name,
       'chisburger': chisburger,

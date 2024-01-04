@@ -6,9 +6,9 @@ class Task {
   final String? cola;
   Task({
     required this.name,
-    required this.chisburger,
-    required this.bigMac,
-    required this.kartoshka,
-    required this.cola,
+    this.chisburger,
+    this.bigMac,
+    this.kartoshka,
+    this.cola,
   });
 }

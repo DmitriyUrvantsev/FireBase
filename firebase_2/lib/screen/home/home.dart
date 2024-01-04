@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
     return StreamProvider<List<Task>>.value(
       value: DatabaseService(uid: user?.uid ?? 'null').tasks,
       initialData: [
-        Task(name: '', chisburger: '0', bigMac: '0', kartoshka: '0', cola: '0')
+        Task(name: '')//, chisburger: '0', bigMac: '0', kartoshka: '0', cola: '0')
       ],
       child: Scaffold(
           backgroundColor: Colors.brown[50],

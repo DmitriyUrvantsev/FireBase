@@ -4,11 +4,11 @@ import '../../shared/constant.dart';
 import '../../shared/loading.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
+  //final Function toggleView;
 
   const Register({
     Key? key,
-    required this.toggleView,
+   // required this.toggleView,
   }) : super(key: key);
 
   @override

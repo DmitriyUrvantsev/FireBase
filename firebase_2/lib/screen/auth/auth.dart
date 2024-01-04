@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'auth_model.dart';
 import 'register.dart';
 import 'sign_in.dart';
 
-class Authenticate extends StatefulWidget {
+class Authenticate extends StatelessWidget {
   const Authenticate({super.key});
 
   @override
-  State<Authenticate> createState() => _AuthenticateState();
-}
-
-class _AuthenticateState extends State<Authenticate> {
-  bool showSignIn = true;
-  void toggleView() {
-    setState(() => showSignIn = !showSignIn);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    //final watch = context.watch<AuthenticateModel>();
+    final read = context.read<AuthenticateModel>();
+    bool showSignIn = read.showSingInPage;
     if (showSignIn) {
-      return SignIn(toggleView: toggleView);
+      return const SignIn();
     } else {
-      return Register(toggleView: toggleView);
+      return const Register();
     }
   }
 }
