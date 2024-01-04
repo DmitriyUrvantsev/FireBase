@@ -7,7 +7,7 @@ import '../../domain/entity/user.dart';
 import '../../servises/auth_servises.dart';
 import '../../servises/data_base.dart';
 import 'settings_form.dart';
-
+//
 class Home extends StatelessWidget {
   const Home({
     super.key,
