@@ -32,7 +32,7 @@ class SignIn extends StatelessWidget {
           ),
         ],
       ),
-      body: watch.loading
+      body: watch.loading//!read?
           ? const Loading()
           : Container(
               padding:
@@ -85,7 +85,7 @@ class SignIn extends StatelessWidget {
 //-----------------------------------------------------------
                     const SizedBox(height: 12.0),
                     Text(
-                      watch.error,
+                      watch.error?? '',
                       style: const TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
                   ],

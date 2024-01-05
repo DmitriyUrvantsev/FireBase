@@ -9,9 +9,9 @@ class Authenticate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final watch = context.watch<AuthenticateModel>();
-    final read = context.read<AuthenticateModel>();
-    bool showSignIn = read.showSingInPage;
+    final watch = context.watch<AuthenticateModel>();
+   // final read = context.read<AuthenticateModel>();
+    bool showSignIn = watch.showSingInPage;
     if (showSignIn) {
       return const SignIn();
     } else {

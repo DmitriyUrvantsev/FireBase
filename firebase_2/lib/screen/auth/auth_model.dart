@@ -8,30 +8,37 @@ class AuthenticateModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   bool showSingInPage = true;
 
-  String error = '';
+  String? error;
   bool loading = false;
   String email = '';
   String password = '';
+//------
+  String userFio = '';
 
 //----------------------singIn-----------------------
 //---------------------------------------------------
 
-void toggleView() {
-     showSingInPage = !showSingInPage;
-   }
+  void toggleView() {
+    showSingInPage = !showSingInPage;
+    error = null;
 
+    notifyListeners();
+  }
+
+//-----------
   Future<void> singIn() async {
     if (formKey.currentState?.validate() ?? false) {
       loading = true;
-
       dynamic result = await auth.signInWithEmailAndPassword(email, password);
-      print('result - $result');
+      //print('result - $result');
       loading = false;
       if (result == null) {
         {
           loading = false;
-          print('modelLoading - $loading');
+          //print('modelLoading - $loading');
           error = 'Не удалось войти с этими учетными данными.'; //!
+
+          notifyListeners();
         }
         notifyListeners();
       }
@@ -45,6 +52,25 @@ void toggleView() {
       print('Ошибка входа в систему');
     } else {
       print('userAnonim(user).id - ${userAnonim.uid}');
+    }
+  }
+
+//----------------------register-----------------------
+//---------------------------------------------------
+//---------------------------------------------------
+  Future<void> register() async {
+    if (formKey.currentState?.validate() ?? false) {
+      loading = true;
+      dynamic result =
+          await auth.registerWithEmailAndPassword(userFio, email, password);
+      loading = false; //!------?-----
+      showSingInPage = true;
+      error = null;
+      if (result == null || userFio == '') {
+        loading = false;
+        error =
+            'Пожалуйста, укажите действительный адрес электронной почты, пароль, a также Ваше имя';
+      }
     }
   }
 }
