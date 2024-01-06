@@ -8,7 +8,7 @@ import 'screen/auth/auth_model.dart';
 import 'screen/home/home_model.dart';
 import 'wrapper.dart';
 
-//start 2
+//start
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
