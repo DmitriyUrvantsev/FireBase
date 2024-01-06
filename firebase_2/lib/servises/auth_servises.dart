@@ -31,18 +31,11 @@ class AuthService {
 
   // ---------войти с email и password---------
   Future signInWithEmailAndPassword(String email, String password) async {
-   // userName = 'болванка';
-    try {
+        try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      // await DatabaseService(uid: user!.uid).updateUserData(
-      //   '$userName - чтобы оформить заказ \n - жми "заказ"',
-      //   '0',
-      //   '0',
-      //   '0',
-      //   '0',
-      // );
+
       return user;
     } catch (error) {
       print('error.toString() ${error.toString()}');
@@ -59,12 +52,7 @@ class AuthService {
           email: email, password: password);
       User? user = result.user;
       await DatabaseService(uid: user!.uid).updateUserData(
-          '$userName:\n  - чтобы оформить заказ \n - жми "заказ"'
-          //'0',
-          //'0',
-          // '0',
-          // '0',
-          );
+          '$userName:\n  - чтобы оформить заказ \n - жми "заказ"');
       print('userName - $userName');
       print('user - $user');
       return _userFromFirebaseUser(user);

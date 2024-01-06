@@ -71,6 +71,11 @@ class AuthenticateModel extends ChangeNotifier {
         error =
             'Пожалуйста, укажите действительный адрес электронной почты, пароль, a также Ваше имя';
       }
+      if ( userFio.contains('-')) {
+        loading = false;
+        error =
+            'Пожалуйста, поле Имя и Фамилия не должны содержать знак "-"';
+      }
     }
   }
 }

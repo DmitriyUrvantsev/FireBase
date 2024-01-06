@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../domain/entity/task.dart';
-import '../../shared/constant.dart';
+import 'home_model.dart';
+
 //
 class TaskTile extends StatelessWidget {
   final Task task;
@@ -11,6 +13,8 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final read = context.read<HomeWidgetModel>();
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Card(
@@ -25,16 +29,16 @@ class TaskTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               task.chisburger != '0'
-                  ? Text('${task.chisburger} - ${getNoun(
-                      int.tryParse(task.chisburger?? '0') as int,
+                  ? Text('${task.chisburger} - ${read.getNoun(
+                      int.tryParse(task.chisburger ?? '0') as int,
                       'чизбургер',
                       'чизбургера',
                       'чизбургеров',
                     )}')
                   : const SizedBox.shrink(),
               task.bigMac != '0'
-                  ? Text('${task.bigMac} - ${getNoun(
-                      int.tryParse(task.bigMac?? '0') as int,
+                  ? Text('${task.bigMac} - ${read.getNoun(
+                      int.tryParse(task.bigMac ?? '0') as int,
                       'БигМак',
                       'БигМака',
                       'БигМаков',

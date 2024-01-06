@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../domain/entity/task.dart';
 import '../../domain/entity/user.dart';
-import '../../servises/auth_servises.dart';
 import '../../servises/data_base.dart';
-import 'settings_form.dart';
+import 'home_model.dart';
+
 //
 class Home extends StatelessWidget {
   const Home({
@@ -15,39 +15,30 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService auth = AuthService();
-
-    void showSettingsPanel() {
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: const SettingsForm(),
-            );
-          });
-    }
-
+    //final watch = context.watch<HomeWidgetModel>();
+    final read = context.read<HomeWidgetModel>();
     final user = Provider.of<UserApp?>(context);
+  
+
     return StreamProvider<List<Task>>.value(
       value: DatabaseService(uid: user?.uid ?? 'null').tasks,
-      initialData: [
-        Task(name: '')//, chisburger: '0', bigMac: '0', kartoshka: '0', cola: '0')
-      ],
+      initialData: [Task(name: '')],
       child: Scaffold(
           backgroundColor: Colors.brown[50],
           appBar: AppBar(
             title: const Center(child: Text('Лист заказов')),
             backgroundColor: Colors.brown[400],
-            elevation: 0.0,
+            elevation: 2.0,
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.settings),
                   label: const Text('заказ'),
-                  onPressed: () => showSettingsPanel(),
+                  onPressed: ()  {
+                 read.showSettingsPanel(context, user?.uid) ;
+                 print('user?.uid - ${user?.uid}');  
+                  },
                 ),
               ),
               Padding(
@@ -56,7 +47,7 @@ class Home extends StatelessWidget {
                   icon: const Icon(Icons.exit_to_app),
                   label: const Text(''),
                   onPressed: () async {
-                    await auth.signOut();
+                    await read.auth.signOut();
                   },
                 ),
               ),

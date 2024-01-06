@@ -10,35 +10,24 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tasks = Provider.of<List<Task>>(context);
     initializeDateFormatting('ru-RU'); //!
     final now = DateTime.now();
     String formatter = DateFormat.yMd('ru-RU').format(now);
 
-    final tasks = Provider.of<List<Task>>(context);
     return Stack(
       children: [
         ListView.builder(
-          padding: const EdgeInsets.only(top: 55),
+          padding: const EdgeInsets.only(top: 60),
           itemCount: tasks.length,
           itemBuilder: (context, index) {
             return TaskTile(task: tasks[index]);
           },
         ),
-
-//1
-//? movie_date_parser
-// DateTime? parseMovieDateFromString(String? rewDate) {
-//     //!обязательно static
-//     if (rewDate == null || rewDate.isEmpty) return null;
-//     return DateTime.tryParse(rewDate);
-//   }
-
-//?--------
-
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 'Список заказов на доставку еды из Мака в офис на  - $formatter:',
                 style:

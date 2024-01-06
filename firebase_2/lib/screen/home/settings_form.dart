@@ -3,147 +3,144 @@ import 'package:provider/provider.dart';
 import '../../domain/entity/user.dart';
 import '../../servises/data_base.dart';
 import '../../shared/constant.dart';
+import 'home_model.dart';
 
 class SettingsForm extends StatefulWidget {
-  const SettingsForm({super.key});
+  final String uid;
+
+  const SettingsForm({super.key, required this.uid});
 
   @override
   State<SettingsForm> createState() => _SettingsFormState();
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-  final _formKey = GlobalKey<FormState>();
-  final List<String> chisburgerList = ['0', '1', '2', '3', '4'];
-  //!по идее нужно на int, потом переделать надо
-  final List<String> bigmakList = ['0', '1', '2'];
-  final List<String> kartoshkaList = ['0', 'мал.', 'сред.', 'болш.'];
-  final List<String> colaList = ['0', 'мал.', 'сред.', 'болш.'];
-
-  String? _currentName;
-  String? _currentChisburger;
-  String? _currentBigmak;
-  String? _currentKartoshka;
-  String? _currentCola;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+   // print('user?.uid DID - ${widget.uid}');
+    final read = context.read<HomeWidgetModel>();
+    read.chekChangeUser(widget.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
     UserApp user = Provider.of<UserApp>(context);
+    final read = context.read<HomeWidgetModel>();
 
     return StreamBuilder<UserAppData>(
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserAppData? userData = snapshot.data;
+            read.cleanerUserName(
+                userData); //!сомнения конечно//такто можно сделать лучше
 
-            var a =
-                ''; // :) - костыль - вытаскиваю userName не от туда откуда нужно...:) sorry
-            for (int i = 0; i < (userData?.name.length ?? 0); i++) {
-              if (userData?.name != null) {
-                String x = userData!.name[i];
-                if (x != '-') {
-                  a = a + x;
-                } else {
-                  break;
-                }
-              }
-            }
-            _currentName = a.trim();
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              child: Form(
+                key: read.formKey,
+                child: Column(
+                  children: <Widget>[
+                    const Text(
+                      'Оформить заказ',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    const SizedBox(height: 20.0),
+                    Text(
+                      'Для - ${read.currentName ?? 'null'}',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w800),
+                    ),
+                    const SizedBox(height: 10.0),
 
-            return Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  const Text(
-                    'Оформить заказ',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    'Имя - ${_currentName ?? 'null'}:',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w800),
-                  ),
-                  const SizedBox(height: 10.0),
+                    //--------------------------------------
+                    DropdownButtonFormField(
+                      value: userData?.chisburger ?? '0',
+                      decoration: textInputDecoration,
+                      items: read.chisburgerList.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('$e - ${read.getNoun(
+                            int.tryParse(e) as int,
+                            'чизбургер',
+                            'чизбургера',
+                            'чизбургеров',
+                          )}'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => read.currentChisburger = val,
+                    ),
+                    //--------------------------------------
+                    DropdownButtonFormField(
+                      value: read.currentBigmak ?? userData?.bigMac ?? '0',
+                      decoration: textInputDecoration,
+                      items: read.bigmakList.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('$e - ${read.getNoun(
+                            int.tryParse(e) as int,
+                            'БигМак',
+                            'БигМака',
+                            'БигМаков',
+                          )}'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => read.currentBigmak = val,
+                    ),
+                    //--------------------------------------
+                    DropdownButtonFormField(
+                      value:
+                          read.currentKartoshka ?? userData?.kartoshka ?? '0',
+                      decoration: textInputDecoration,
+                      items: read.kartoshkaList.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('$e - картошка'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => read.currentKartoshka = val,
+                    ),
+                    //--------------------------------------
+                    DropdownButtonFormField(
+                      value: read.currentCola ?? userData?.cola ?? '0',
+                      decoration: textInputDecoration,
+                      items: read.colaList.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text('$e - кола'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => read.currentCola = val,
+                    ),
+                    //--------------------------------------
 
-                  //--------------------------------------
-                  DropdownButtonFormField(
-                    value: _currentChisburger ?? userData?.chisburger,
-                    decoration: textInputDecoration,
-                    items: chisburgerList.map((e) {
-                      return DropdownMenuItem(
-                        value: e,
-                        child: Text('$e - ${getNoun(
-                          int.tryParse(e) as int,
-                          'чизбургер',
-                          'чизбургера',
-                          'чизбургеров',
-                        )}'),
-                      );
-                    }).toList(),
-                    onChanged: (val) =>
-                        setState(() => _currentChisburger = val),
-                  ),
-                  //--------------------------------------
-                  DropdownButtonFormField(
-                    value: _currentBigmak ?? userData?.bigMac,
-                    decoration: textInputDecoration,
-                    items: bigmakList.map((e) {
-                      return DropdownMenuItem(
-                        value: e,
-                        child: Text('$e - ${getNoun(
-                          int.tryParse(e) as int,
-                          'БигМак',
-                          'БигМака',
-                          'БигМаков',
-                        )}'),
-                      );
-                    }).toList(),
-                    onChanged: (val) => setState(() => _currentBigmak = val),
-                  ),
-                  //--------------------------------------
-                  DropdownButtonFormField(
-                    value: _currentKartoshka ?? userData?.kartoshka,
-                    decoration: textInputDecoration,
-                    items: kartoshkaList.map((e) {
-                      return DropdownMenuItem(
-                        value: e,
-                        child: Text('$e - картошка'),
-                      );
-                    }).toList(),
-                    onChanged: (val) => setState(() => _currentKartoshka = val),
-                  ),
-                  //--------------------------------------
-                  DropdownButtonFormField(
-                    value: _currentCola ?? userData?.cola,
-                    decoration: textInputDecoration,
-                    items: colaList.map((e) {
-                      return DropdownMenuItem(
-                        value: e,
-                        child: Text('$e - кола'),
-                      );
-                    }).toList(),
-                    onChanged: (val) => setState(() => _currentCola = val),
-                  ),
-                  //--------------------------------------
-
-                  const SizedBox(height: 10.0),
-                  ElevatedButton(
-                      child: const Text(
-                        'Обновить',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          await DatabaseService(uid: user.uid).updateUserData(
-                              _currentName ?? snapshot.data!.name,
-                              _currentChisburger ?? snapshot.data!.chisburger?? '0',
-                              _currentBigmak ?? snapshot.data!.bigMac?? '0',
-                              _currentKartoshka ?? snapshot.data!.kartoshka?? '0',
-                              _currentCola ?? snapshot.data!.cola?? '0');
-                          Navigator.pop(context);
-                        }
-                      }),
-                ],
+                    const SizedBox(height: 10.0),
+                    ElevatedButton(
+                        child: const Text(
+                          'Обновить',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          if (read.formKey.currentState?.validate() ?? false) {
+                            await DatabaseService(uid: user.uid).updateUserData(
+                                read.currentName ?? snapshot.data!.name,
+                                read.currentChisburger ??
+                                    snapshot.data!.chisburger ??
+                                    '0',
+                                read.currentBigmak ??
+                                    snapshot.data!.bigMac ??
+                                    '0',
+                                read.currentKartoshka ??
+                                    snapshot.data!.kartoshka ??
+                                    '0',
+                                read.currentCola ?? snapshot.data!.cola ?? '0');
+                            read.closeSettingPanel(context); //! потом подумать
+                          }
+                        }),
+                  ],
+                ),
               ),
             );
           } else {

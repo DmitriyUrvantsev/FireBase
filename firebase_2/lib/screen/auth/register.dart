@@ -5,24 +5,10 @@ import '../../shared/constant.dart';
 import '../../shared/loading.dart';
 import 'auth_model.dart';
 
-class Register extends StatefulWidget {
+class Register extends StatelessWidget {
   const Register({
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<Register> createState() => _RegisterState();
-}
-
-class _RegisterState extends State<Register> {
-  // final AuthService _auth = AuthService();
-  // final _formKey = GlobalKey<FormState>();
-  // String? error;
-  // bool loading = false;
-
-  // String userFio = '';
-  // String email = '';
-  // String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +58,6 @@ class _RegisterState extends State<Register> {
                           border: OutlineInputBorder(),
                           labelText: 'Ваша электронная почта',
                         ),
-                        obscureText: true,
                         validator: (val) =>
                             val?.isEmpty ?? false ? 'Введите email' : null,
                         onChanged: (val) => read.email = val),
